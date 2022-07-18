@@ -1,0 +1,14 @@
+// const returnCachedData = (req, res, next, data) => {
+//   if (!data) return next();
+
+//   const cachedData = JSON.parse(data);
+//   return res.status(200).json({ sets: cachedData });
+// };
+
+module.exports = {
+  USER_KEY: {
+    name: "user",
+    params: ["fbID"],
+    expiresIn: 60 * 60,
+  },
+};
