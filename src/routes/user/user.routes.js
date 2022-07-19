@@ -12,8 +12,7 @@ const {
   validator: paramsValidator,
   FbIDSchema,
 } = require("../../validation/params.validator");
-const { getCacheData } = require("../../redis/redis.mw");
-const { USER_KEY } = require("../../redis/redis.keys");
+const { authUser } = require("../../middlewares/auth/auth.mw");
 
 // User API
 
@@ -21,14 +20,9 @@ const { USER_KEY } = require("../../redis/redis.keys");
 userRouter.post("/", bodyValidator(UserSchema), createUser);
 
 // GET - Get User
-userRouter.get(
-  "/:fbID",
-  paramsValidator(FbIDSchema),
-  getCacheData(USER_KEY),
-  getUser
-);
+userRouter.get("/:fbID", paramsValidator(FbIDSchema), authUser, getUser);
 
 // DELETE - Remove User
-userRouter.delete("/:fbID", paramsValidator(FbIDSchema), deleteUser);
+userRouter.delete("/:fbID", paramsValidator(FbIDSchema), authUser, deleteUser);
 
 module.exports = userRouter;

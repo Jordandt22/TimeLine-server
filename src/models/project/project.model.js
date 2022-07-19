@@ -43,6 +43,10 @@ const TaskSchema = new Schema(
 // Project
 const ProjectSchema = new Schema(
   {
+    creatorFbID: {
+      type: String,
+      required: true
+    },
     name: {
       type: String,
       min: 1,

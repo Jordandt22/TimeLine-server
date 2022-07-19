@@ -24,11 +24,8 @@ module.exports = {
     return res.status(200).json({ message: "Successfully Created Account." });
   },
   getUser: async (req, res, next) => {
-    const cacheUser = req.user;
-    if (cacheUser) return res.status(200).json({ user: cacheUser });
-
     const { fbID } = req.params;
-    const user = await User.findOne({ fbID });
+    const user = req.user;
     if (!user)
       return res.status(404).json(createError(404, "Unable to find user."));
 

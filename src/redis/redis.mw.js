@@ -41,6 +41,8 @@ module.exports = {
     }),
   removeCacheData: async (key, reqParams) =>
     await redis.del(formatRedisKey(key, reqParams)),
-  getCache: async (key, reqParams) =>
-    await redis.get(formatRedisKey(key, reqParams)),
+  getCache: async (key, reqParams) => {
+    const data = await redis.get(formatRedisKey(key, reqParams));
+    return JSON.parse(data);
+  },
 };
