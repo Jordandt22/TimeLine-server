@@ -41,13 +41,6 @@ const UserSchema = new Schema(
       max: 150,
       required: true,
     },
-    email: {
-      type: String,
-      min: 1,
-      max: 150,
-      lowercase:true,
-      required: true,
-    },
     projects: [ProjectIDSchema],
   },
   {

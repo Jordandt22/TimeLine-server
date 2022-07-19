@@ -21,13 +21,6 @@ const UserSchema = Joi.object()
       "string.min": "A last name is required.",
       "string.max": "Your last name exceeds the character limit.",
     }),
-    email: Joi.string().email().trim().min(1).max(150).required().messages({
-      "any.required": "An email is required.",
-      "string.empty": "A email is required.",
-      "string.min": "An email is required.",
-      "string.max": "Your email exceeds the character limit.",
-      "string.email": "Must enter a valid email.",
-    }),
   })
   .options({ abortEarly: false });
 

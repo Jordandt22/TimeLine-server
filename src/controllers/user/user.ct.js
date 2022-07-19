@@ -1,14 +1,12 @@
 const User = require("../../models/user/user.model");
 const { createError } = require("../../utils/global.utils");
-const { cacheData } = require("../../redis/redis.mw");
+const { cacheData, removeCacheData } = require("../../redis/redis.mw");
 const { USER_KEY } = require("../../redis/redis.keys");
 
 module.exports = {
   createUser: async (req, res, next) => {
-    const { fbID, firstName, lastName, email } = req.body;
-    const accountAlreadyExists = await User.exists({
-      $or: [{ fbID }, { email: email.toLowerCase() }],
-    });
+    const { fbID, firstName, lastName } = req.body;
+    const accountAlreadyExists = await User.exists({ fbID });
     if (accountAlreadyExists)
       return res
         .status(400)
@@ -19,7 +17,6 @@ module.exports = {
       fbID,
       firstName,
       lastName,
-      email,
       projects: [],
     });
 
@@ -37,5 +34,12 @@ module.exports = {
 
     await cacheData(USER_KEY, { fbID }, user);
     return res.status(200).json({ user });
+  },
+  deleteUser: async (req, res, next) => {
+    const { fbID } = req.params;
+    await User.findOneAndDelete({ fbID });
+
+    await removeCacheData(USER_KEY, { fbID });
+    return res.status(200).json({ message: "Successfully deleted user." });
   },
 };

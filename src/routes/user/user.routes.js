@@ -1,5 +1,9 @@
 const userRouter = require("express-promise-router")();
-const { createUser, getUser } = require("../../controllers/user/user.ct");
+const {
+  createUser,
+  getUser,
+  deleteUser,
+} = require("../../controllers/user/user.ct");
 const {
   validator: bodyValidator,
   UserSchema,
@@ -23,5 +27,8 @@ userRouter.get(
   getCacheData(USER_KEY),
   getUser
 );
+
+// DELETE - Remove User
+userRouter.delete("/:fbID", paramsValidator(FbIDSchema), deleteUser);
 
 module.exports = userRouter;
