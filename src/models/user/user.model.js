@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 // Project ID 
 const ProjectIDSchema = new Schema(
   {
-    creatorID: {
+    creatorFbID: {
       type: String,
       required: true,
     },

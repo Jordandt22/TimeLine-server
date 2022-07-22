@@ -1,6 +1,7 @@
 const User = require("../../models/user/user.model");
 const { USER_KEY } = require("../../redis/redis.keys");
 const { getCache } = require("../../redis/redis.mw");
+const { createError } = require("../../utils/global.utils");
 
 module.exports = {
   authUser: async (req, res, next) => {
@@ -16,6 +17,9 @@ module.exports = {
     }
 
     const dbUser = await User.findOne({ fbID });
+    if (!dbUser)
+      return res.status(404).json(createError(404, "Unable to find user."));
+
     req.user = dbUser;
     return next();
   },

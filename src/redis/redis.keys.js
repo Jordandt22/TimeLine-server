@@ -11,4 +11,9 @@ module.exports = {
     params: ["fbID"],
     expiresIn: 60 * 60,
   },
+  PROJECT_KEY: {
+    name: "project",
+    params: ["projectID"],
+    expiresIn: 60 * 60,
+  },
 };

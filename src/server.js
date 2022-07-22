@@ -8,6 +8,11 @@ const http = require("http");
 const rateLimiter = require("express-rate-limit");
 const slowDown = require("express-slow-down");
 const connect = require("./models/db");
+const { authUser } = require("./middlewares/auth/auth.mw");
+const {
+  validator: paramsValidator,
+  FbIDSchema,
+} = require("./validation/params.validator");
 const app = express();
 
 // Middleware
@@ -56,6 +61,12 @@ const API_VERSION = `v${process.env.API_VERSION}`;
 
 // API Route
 app.use(`/${API_VERSION}/api/user`, require("./routes/user/user.routes"));
+app.use(
+  `/${API_VERSION}/api/user/:fbID/projects`,
+  paramsValidator(FbIDSchema),
+  authUser,
+  require("./routes/projects/projects.routes")
+);
 
 // PORT and Sever
 const PORT = process.env.PORT || 8000;

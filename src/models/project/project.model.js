@@ -9,7 +9,7 @@ const StatusSchema = new Schema({
   },
   isDeveloping: {
     type: Boolean,
-    defualt: true,
+    default: true,
   },
   isFinished: {
     type: Boolean,
@@ -45,7 +45,7 @@ const ProjectSchema = new Schema(
   {
     creatorFbID: {
       type: String,
-      required: true
+      required: true,
     },
     name: {
       type: String,

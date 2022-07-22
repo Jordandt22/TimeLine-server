@@ -35,10 +35,12 @@ module.exports = {
     next();
   },
   // Functions
-  cacheData: async (key, reqParams, data) =>
-    await redis.set(formatRedisKey(key, reqParams), JSON.stringify(data), {
-      EX: key.expiresIn,
-    }),
+  cacheData: async (key, reqParams, data) => {
+    if (data)
+      await redis.set(formatRedisKey(key, reqParams), JSON.stringify(data), {
+        EX: key.expiresIn,
+      });
+  },
   removeCacheData: async (key, reqParams) =>
     await redis.del(formatRedisKey(key, reqParams)),
   getCache: async (key, reqParams) => {
