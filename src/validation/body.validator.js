@@ -67,8 +67,51 @@ const UpdateProjectSchema = Joi.object()
   })
   .options({ abortEarly: false });
 
+// Task
+const TaskSchema = Joi.object()
+  .keys({
+    name: Joi.string().trim().min(1).max(150).required().messages({
+      "any.required": "A task name is required !",
+      "string.empty": "A task name is required !",
+      "string.min": "A task name is required !",
+      "string.max": "Your task name exceeds the character limit.",
+    }),
+    desc: Joi.string().trim().min(1).max(300).required().messages({
+      "any.required": "A task description is required.",
+      "string.empty": "A task description is required.",
+      "string.min": "A task description is required.",
+      "string.max": "Your task description exceeds the character limit.",
+    }),
+  })
+  .options({ abortEarly: false });
+
+// Update Task
+const UpdateTaskSchema = Joi.object()
+  .keys({
+    name: Joi.string().trim().min(1).max(150).required().messages({
+      "any.required": "A task name is required !",
+      "string.empty": "A task name is required !",
+      "string.min": "A task name is required !",
+      "string.max": "Your task name exceeds the character limit.",
+    }),
+    desc: Joi.string().trim().min(1).max(300).required().messages({
+      "any.required": "A task description is required.",
+      "string.empty": "A task description is required.",
+      "string.min": "A task description is required.",
+      "string.max": "Your task description exceeds the character limit.",
+    }),
+    status: Joi.object()
+      .keys({
+        isOnHold: Joi.boolean().required(),
+        isDeveloping: Joi.boolean().required(),
+        isFinished: Joi.boolean().required(),
+      })
+      .required(),
+  })
+  .options({ abortEarly: false });
+
 module.exports = {
-  validator: (schema) => async (req, res, next) => {
+  bodyValidator: (schema) => async (req, res, next) => {
     const result = schema.validate(req.body);
     const error = result.error;
     if (error) {
@@ -82,4 +125,6 @@ module.exports = {
   UserSchema,
   ProjectSchema,
   UpdateProjectSchema,
+  TaskSchema,
+  UpdateTaskSchema,
 };

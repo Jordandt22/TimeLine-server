@@ -1,6 +1,6 @@
 const User = require("../../models/user/user.model");
 const { USER_KEY } = require("../../redis/redis.keys");
-const { getCache } = require("../../redis/redis.mw");
+const { getCache, cacheData } = require("../../redis/redis.mw");
 const { createError } = require("../../utils/global.utils");
 
 module.exports = {
@@ -21,6 +21,7 @@ module.exports = {
       return res.status(404).json(createError(404, "Unable to find user."));
 
     req.user = dbUser;
+    await cacheData(USER_KEY, { fbID }, dbUser);
     return next();
   },
 };

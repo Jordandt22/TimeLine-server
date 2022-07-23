@@ -5,11 +5,11 @@ const {
   deleteUser,
 } = require("../../controllers/user/user.ct");
 const {
-  validator: bodyValidator,
+  bodyValidator,
   UserSchema,
 } = require("../../validation/body.validator");
 const {
-  validator: paramsValidator,
+  paramsValidator,
   FbIDSchema,
 } = require("../../validation/params.validator");
 const { authUser } = require("../../middlewares/auth/auth.mw");

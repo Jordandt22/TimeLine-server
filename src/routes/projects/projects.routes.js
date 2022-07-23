@@ -6,12 +6,12 @@ const {
   deleteProject,
 } = require("../../controllers/projects/projects.ct");
 const {
-  validator: bodyValidator,
+  bodyValidator,
   ProjectSchema,
   UpdateProjectSchema,
 } = require("../../validation/body.validator");
 const {
-  validator: paramsValidator,
+  paramsValidator,
   ProjectIDSchema,
 } = require("../../validation/params.validator");
 const { getCacheData } = require("../../redis/redis.mw");

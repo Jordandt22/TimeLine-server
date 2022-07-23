@@ -9,10 +9,14 @@ const rateLimiter = require("express-rate-limit");
 const slowDown = require("express-slow-down");
 const connect = require("./models/db");
 const { authUser } = require("./middlewares/auth/auth.mw");
+const { checkProject } = require("./middlewares/projects/projects.mw");
 const {
-  validator: paramsValidator,
+  paramsValidator,
   FbIDSchema,
+  FbIDAndProjectIDSchema,
 } = require("./validation/params.validator");
+const { getCacheData } = require("./redis/redis.mw");
+const { PROJECT_KEY } = require("./redis/redis.keys");
 const app = express();
 
 // Middleware
@@ -66,6 +70,14 @@ app.use(
   paramsValidator(FbIDSchema),
   authUser,
   require("./routes/projects/projects.routes")
+);
+app.use(
+  `/${API_VERSION}/api/user/:fbID/project/:projectID/tasks`,
+  paramsValidator(FbIDAndProjectIDSchema),
+  authUser,
+  getCacheData(PROJECT_KEY),
+  checkProject,
+  require("./routes/projects/tasks.routes")
 );
 
 // PORT and Sever

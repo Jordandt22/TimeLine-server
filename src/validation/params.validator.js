@@ -14,8 +14,23 @@ const ProjectIDSchema = Joi.object()
   })
   .options({ abortEarly: false });
 
+// Firebase ID and Project ID
+const FbIDAndProjectIDSchema = Joi.object()
+  .keys({
+    fbID: Joi.string().trim().min(1).max(2000).required(),
+    projectID: Joi.string().trim().min(1).max(2000).required(),
+  })
+  .options({ abortEarly: false });
+
+// Task ID
+const TaskIDSchema = Joi.object()
+  .keys({
+    taskID: Joi.string().trim().min(1).max(2000).required(),
+  })
+  .options({ abortEarly: false });
+
 module.exports = {
-  validator: (schema) => async (req, res, next) => {
+  paramsValidator: (schema) => async (req, res, next) => {
     const result = schema.validate(req.params);
     const error = result.error;
     if (error) {
@@ -27,5 +42,7 @@ module.exports = {
     next();
   },
   FbIDSchema,
-  ProjectIDSchema
+  ProjectIDSchema,
+  FbIDAndProjectIDSchema,
+  TaskIDSchema,
 };
