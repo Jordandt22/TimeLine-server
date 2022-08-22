@@ -2,12 +2,30 @@ const User = require("../../models/user/user.model");
 const { USER_KEY } = require("../../redis/redis.keys");
 const { getCache, cacheData } = require("../../redis/redis.mw");
 const { createError } = require("../../utils/global.utils");
+const { verifyAccessToken } = require("../../firebase/firebase.functions");
 
 module.exports = {
-  authUser: async (req, res, next) => {
+  authUser: (isSignUp) => async (req, res, next) => {
     const { fbID } = req.params;
 
     // FIREBASE AUTH
+    const accessToken = req.headers.authorization.replace("Bearer ", "");
+    if (!accessToken)
+      return res
+        .status(422)
+        .json(createError(422, "Must provide credentials."));
+
+    const decodedToken = await verifyAccessToken(accessToken);
+    if (fbID !== decodedToken.uid)
+      return res
+        .status(401)
+        .json(createError(401, "Must provide valid credentials."));
+
+    // Is Sign Up Flow
+    if (isSignUp) {
+      req.user = { fbID };
+      return next();
+    }
 
     // Retrieve User Data
     const cachedUser = await getCache(USER_KEY, { fbID });

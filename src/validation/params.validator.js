@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const { createError } = require("../utils/global.utils");
 
 // Firebase ID
 const FbIDSchema = Joi.object()
@@ -36,7 +37,7 @@ module.exports = {
     if (error) {
       let errors = {};
       error.details.map((e) => (errors[e.context.label] = e.message));
-      return res.status(422).json({ errors });
+      return res.status(422).json(createError(422, errors, true));
     }
 
     next();

@@ -63,18 +63,18 @@ const API_VERSION = `v${process.env.API_VERSION}`;
 //   res.send("Anime API Server for CodeAnime is Up and Running !");
 // });
 
-// API Route
+// API Routes
 app.use(`/${API_VERSION}/api/user`, require("./routes/user/user.routes"));
 app.use(
   `/${API_VERSION}/api/user/:fbID/projects`,
   paramsValidator(FbIDSchema),
-  authUser,
+  authUser(false),
   require("./routes/projects/projects.routes")
 );
 app.use(
   `/${API_VERSION}/api/user/:fbID/project/:projectID/tasks`,
   paramsValidator(FbIDAndProjectIDSchema),
-  authUser,
+  authUser(false),
   getCacheData(PROJECT_KEY),
   checkProject,
   require("./routes/projects/tasks.routes")

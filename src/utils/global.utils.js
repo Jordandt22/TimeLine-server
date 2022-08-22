@@ -1,10 +1,9 @@
-
-
 module.exports = {
-  createError: (status, message) => ({
+  createError: (status, message, isValidationError) => ({
     error: {
       status,
-      message
-    }
-  })
-}
+      message,
+      isValidationError
+    },
+  }),
+};

@@ -17,12 +17,23 @@ const { authUser } = require("../../middlewares/auth/auth.mw");
 // User API
 
 // POST - Create User
-userRouter.post("/", bodyValidator(UserSchema), createUser);
+userRouter.post(
+  "/:fbID",
+  paramsValidator(FbIDSchema),
+  authUser(true),
+  bodyValidator(UserSchema),
+  createUser
+);
 
 // GET - Get User
-userRouter.get("/:fbID", paramsValidator(FbIDSchema), authUser, getUser);
+userRouter.get("/:fbID", paramsValidator(FbIDSchema), authUser(false), getUser);
 
 // DELETE - Remove User
-userRouter.delete("/:fbID", paramsValidator(FbIDSchema), authUser, deleteUser);
+userRouter.delete(
+  "/:fbID",
+  paramsValidator(FbIDSchema),
+  authUser(false),
+  deleteUser
+);
 
 module.exports = userRouter;
