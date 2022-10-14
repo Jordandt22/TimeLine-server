@@ -59,9 +59,9 @@ app.use(limiter);
 const API_VERSION = `v${process.env.API_VERSION}`;
 
 // Landing Page Route
-// app.get("/", (req, res) => {
-//   res.send("Anime API Server for CodeAnime is Up and Running !");
-// });
+app.get("/", (req, res) => {
+  res.send("API Server for TimeLine is Up and Running !");
+});
 
 // API Routes
 app.use(`/${API_VERSION}/api/user`, require("./routes/user/user.routes"));

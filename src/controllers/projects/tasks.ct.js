@@ -1,7 +1,7 @@
 const Project = require("../../models/project/project.model");
 const { createError } = require("../../utils/global.utils");
-const { cacheData } = require("../../redis/redis.mw");
-const { PROJECT_KEY } = require("../../redis/redis.keys");
+const { cacheData, removeCacheData } = require("../../redis/redis.mw");
+const { PROJECT_KEY, USER_PROJECTS_KEY } = require("../../redis/redis.keys");
 
 // Check Task
 const checkTask = (tasks, taskID) => tasks.some((task) => task._id === taskID);
@@ -24,6 +24,7 @@ module.exports = {
     );
 
     await cacheData(PROJECT_KEY, { projectID }, updatedProject);
+    await removeCacheData(USER_PROJECTS_KEY, { fbID });
     return res.status(200).json({ project: updatedProject });
   },
   updateTask: async (req, res, next) => {
@@ -53,6 +54,7 @@ module.exports = {
     );
 
     await cacheData(PROJECT_KEY, { projectID }, updatedProject);
+    await removeCacheData(USER_PROJECTS_KEY, { fbID });
     return res.status(200).json({ project: updatedProject });
   },
   deleteTask: async (req, res, next) => {
@@ -77,6 +79,7 @@ module.exports = {
     );
 
     await cacheData(PROJECT_KEY, { projectID }, updatedProject);
+    await removeCacheData(USER_PROJECTS_KEY, { fbID });
     return res.status(200).json({ project: updatedProject });
   },
 };

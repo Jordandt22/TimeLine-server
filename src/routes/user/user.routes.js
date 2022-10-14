@@ -3,6 +3,7 @@ const {
   createUser,
   getUser,
   deleteUser,
+  getUserProjects,
 } = require("../../controllers/user/user.ct");
 const {
   bodyValidator,
@@ -25,8 +26,16 @@ userRouter.post(
   createUser
 );
 
-// GET - Get User
+// GET - Get a User
 userRouter.get("/:fbID", paramsValidator(FbIDSchema), authUser(false), getUser);
+
+// GET  - Get a User's Projects
+userRouter.get(
+  "/:fbID/projects",
+  paramsValidator(FbIDSchema),
+  authUser(false),
+  getUserProjects
+);
 
 // DELETE - Remove User
 userRouter.delete(

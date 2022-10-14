@@ -1,7 +1,11 @@
 const User = require("../../models/user/user.model");
 const Project = require("../../models/project/project.model");
 const { cacheData, removeCacheData } = require("../../redis/redis.mw");
-const { USER_KEY, PROJECT_KEY } = require("../../redis/redis.keys");
+const {
+  USER_KEY,
+  PROJECT_KEY,
+  USER_PROJECTS_KEY,
+} = require("../../redis/redis.keys");
 const { createError } = require("../../utils/global.utils");
 
 // Update Project's Last Viewed in User's List
@@ -49,6 +53,7 @@ module.exports = {
 
     await cacheData(USER_KEY, { fbID }, updatedUser);
     await cacheData(PROJECT_KEY, { projectID }, newProject);
+    await removeCacheData(USER_PROJECTS_KEY, { fbID });
     return res.status(200).json({ project: newProject, user: updatedUser });
   },
   getProject: async (req, res, next) => {
@@ -102,6 +107,7 @@ module.exports = {
 
     await removeCacheData(PROJECT_KEY, { projectID });
     await cacheData(USER_KEY, { fbID }, updatedUser);
+    await removeCacheData(USER_PROJECTS_KEY, { fbID });
     return res.status(200).json({ user: updatedUser });
   },
   updateProject: async (req, res, next) => {
@@ -117,6 +123,7 @@ module.exports = {
     );
 
     await cacheData(PROJECT_KEY, { projectID }, updatedProject);
+    await removeCacheData(USER_PROJECTS_KEY, { fbID });
     return res.status(200).json({ project: updatedProject });
   },
 };

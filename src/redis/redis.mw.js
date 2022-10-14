@@ -8,7 +8,7 @@ const formatRedisKey = (key, reqParams) => {
     const val = reqParams[param];
     if (!val) return;
 
-    redisKey = redisKey + "_" + param + ":" + val.trim();
+    redisKey = redisKey + "_" + param + ":" + val.toString().trim();
   });
 
   return redisKey.trim().toLowerCase();
