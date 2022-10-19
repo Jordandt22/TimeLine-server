@@ -16,7 +16,7 @@ module.exports = {
         .json(createError(422, "Must provide credentials."));
 
     const decodedToken = await verifyAccessToken(accessToken);
-    if (fbID !== decodedToken.uid)
+    if (fbID !== decodedToken?.uid)
       return res
         .status(401)
         .json(createError(401, "Must provide valid credentials."));
