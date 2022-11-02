@@ -9,7 +9,7 @@ module.exports = {
     const { fbID } = req.params;
 
     // FIREBASE AUTH
-    const accessToken = req.headers.authorization.replace("Bearer ", "");
+    const accessToken = req.headers?.authorization?.replace("Bearer ", "");
     if (!accessToken)
       return res
         .status(422)
