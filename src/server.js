@@ -39,16 +39,16 @@ if (notProduction) {
 // Mongoose Connection
 connect();
 
-const timeLimit = 1000 * 60 * 15;
-const maxReq = 75;
+const timeLimit = 1000 * 60;
+const maxReq = 100;
 const limiter = rateLimiter({
   windowMs: timeLimit,
-  max: maxReq,
+  max: maxReq * 2,
 });
 const speedLimiter = slowDown({
   windowMs: timeLimit,
-  delayAfter: maxReq / 2,
-  delayMs: 500,
+  delayAfter: maxReq,
+  delayMs: 300,
 });
 
 // Rate & Speed Limiters
